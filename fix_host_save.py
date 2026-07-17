@@ -14,7 +14,11 @@ import shutil
 
 # Try importing from PalworldSaveTools if available (for custom properties)
 PST_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "PalworldSaveTools", "src")
-if os.path.exists(PST_PATH):
+PST_PATH_NEW = os.path.join(os.path.dirname(os.path.abspath(__file__)), "PalworldSaveTools", "src", "palsav")
+
+if os.path.exists(PST_PATH_NEW):
+    sys.path.insert(0, PST_PATH_NEW)
+elif os.path.exists(PST_PATH):
     sys.path.insert(0, PST_PATH)
 else:
     print("ERROR: PalworldSaveTools folder not found!")
@@ -24,14 +28,23 @@ else:
     print("The pip version of palworld-save-tools does NOT work with Palworld v1.0 saves.")
     sys.exit(1)
 
-from palworld_save_tools.gvas import GvasFile
-from palworld_save_tools.paltypes import PALWORLD_TYPE_HINTS, PALWORLD_CUSTOM_PROPERTIES
+# Handle both old and new module names
+try:
+    from palworld_save_tools.gvas import GvasFile
+    from palworld_save_tools.paltypes import PALWORLD_TYPE_HINTS, PALWORLD_CUSTOM_PROPERTIES
+except ImportError:
+    from palsav.gvas import GvasFile
+    from palsav.paltypes import PALWORLD_TYPE_HINTS, PALWORLD_CUSTOM_PROPERTIES
 
 try:
     from palworld_save_tools.paltypes import SKP_PALWORLD_CUSTOM_PROPERTIES
     CUSTOM_PROPS = SKP_PALWORLD_CUSTOM_PROPERTIES
 except ImportError:
-    CUSTOM_PROPS = PALWORLD_CUSTOM_PROPERTIES
+    try:
+        from palsav.paltypes import SKP_PALWORLD_CUSTOM_PROPERTIES
+        CUSTOM_PROPS = SKP_PALWORLD_CUSTOM_PROPERTIES
+    except ImportError:
+        CUSTOM_PROPS = PALWORLD_CUSTOM_PROPERTIES
 
 
 def decompress_sav(data: bytes) -> tuple:
