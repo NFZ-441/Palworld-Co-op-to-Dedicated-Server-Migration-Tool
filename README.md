@@ -306,6 +306,36 @@ Map exploration will be reset — you'll need to re-discover the map. This is no
 
 ---
 
+## Experimental: DPS Version Converter
+
+If you can't load the co-op save locally (e.g., the host isn't available, or you don't have the game installed), you can try converting the `_dps.sav` file directly using this script.
+
+**When to use this:**
+- Your Dimensional Storage shows "retrieving storage information" forever
+- You can't load the co-op save locally to let the game convert it
+- Your `_dps.sav` is from an older Palworld version (before v1.0)
+
+**How to use:**
+
+1. Make sure you've already set up the tool (Steps 1-4 above)
+2. Run the converter on the old DPS file:
+   ```bash
+   python convert_dps_to_v1.py "C:\Users\YOU\Downloads\MyFixFolder\Players\00000000000000000000000000000001_dps.sav"
+   ```
+3. You should see: `Added XXXXX fields across XXXX entries. Done.`
+4. Now run the main fix tool as normal:
+   ```bash
+   python fix_host_save.py "C:\Users\YOU\Downloads\MyFixFolder" NEW_GUID 00000000000000000000000000000001 --guild-fix
+   ```
+5. Upload the fixed files to the server
+6. Build a new Dimensional Pal Storage box in-game and open it
+
+**What it does:** Adds 8 fields that Palworld v1.0 requires (Awakening, TeamMission, etc.) with default values to every Pal entry. Your existing Pal data stays untouched.
+
+**Warning:** This is experimental. If Dimensional Storage still doesn't work after this, use the proven method: load the co-op save locally and let the game do the conversion. Report results in the issues if you try this.
+
+---
+
 ## Credits
 
 Built on top of work by:
