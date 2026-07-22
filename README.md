@@ -219,11 +219,23 @@ Start it up. The host joins — they should have their old character, Pals, and 
 
 ---
 
+## Step 16: Migrate Map Discovery
+To restore map discovery. Each player does this on their own machine
+against their own save. The map is per-client, not shared.
+
+To fix:
+1. In %LOCALAPPDATA%\Pal\Saved\SaveGames\<SteamID64>\, note your old co-op world folder <old_world_id> (sort by Date Modified if unsure)
+2. Connect to the new server, let the world load and then quit cleanly. This will generate %LOCALAPPDATA%\Pal\Saved\SaveGames\<SteamID64>\<new_world_id>\LocalData.sav
+4. Fully close the game(You can turn off Steam Sync, as it could re-sync and clobber the file about to be copied but it's unlikely)
+5. In <new_world_id>\, rename LocalData.sav to LocalData.sav.bak, then copy <old_world_id>\LocalData.sav into <new_world_id>\
+6. Relaunch the game and reconnect to the server
+7. Map should be updated. Re-enabled steam sync, if you disabled it, once confirmed.
+
+---
+
 ## After Migration — Things to Check
 
 If the host's Pals won't fight or follow commands, drop each one from your party onto the ground and pick them back up. That fixes it.
-
-Map exploration will be reset — you'll need to re-discover the map. This is normal and can't be fixed.
 
 ---
 
